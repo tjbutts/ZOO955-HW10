@@ -71,10 +71,6 @@ summary(mod4)
 
 
 # Function to calculate the negative log-likelihood
-# Nicer function for calculating NLL
-N = as.vector(N)
-N
-
 calc_nll <- function(r, K, N_obs){
   n_pred <- N_obs[t] = N_obs[t-1] + r*N_obs[t-1]*(1-N_obs[t-1]/K)
   nll <- calc_nll(N_obs, y_pred, sigma)
