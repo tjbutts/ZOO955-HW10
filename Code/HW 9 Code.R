@@ -1,5 +1,6 @@
 ## HW 9 ## 
 
+library(tidyverse)
 # Danny Szydlowski and Tyler Butts # 
 
 ## Generate a time series of abundance 
@@ -19,13 +20,14 @@ plot(x = seq(1, 50),
           y = N,
           type = 'o', pch = 20, cex = 2)
 
+x = seq(1, 50)
 
 ############## Q2 - generate a model predicted time series of abundance #########################
 # Pretend you don't know the true r or K and adjust until model fits data # 
 dat = data.frame(x = x, y = as.vector(N))
 
 plot(x, y, data = dat)
-
+y = as.vector(N)
 
 # Approximate 
 # model 1
@@ -97,14 +99,26 @@ for (t in time[2:length(time)]){
 y_obs = as.vector(N)
 y_obs
 
+
+# Function to calculate the negative log-likelihood
+calc_nll <- function(r, K, N_obs){
+  n_pred <- N_obs[t] = N_obs[t-1] + r*N_obs[t-1]*(1-N_obs[t-1]/K)
+  nll <- calc_nll(N_obs, y_pred, sigma)
+}
+
 # Objective function
-obj_func <- function(par){
-  r <- par[1]
-  K <- par[2]
+obj_func <- function(par1, y_obs, y_pred){
+  r <- par1[1]
+  K <- par1[2]
   y_pred <- N[t-1] + r*N[t-1]*(1-N[t-1]/K)
+  sigma = length(y_obs)
   nll <- calc_nll(y_obs, y_pred, sigma)
 }
 
+sigma = 3
+y_pred = NA
 # Estimate parameters using optim()
-optfit <- optim(par=c(0,1,2), fn=obj_func)
-optcoefs <- optfit$par
+optfit <- optim(par=c(0,1,2), fn=obj_func(par = c(0,1,2)), y_obs = y_obs, y_pred = y_pred)
+optcoefs <- optfit$par1
+
+########################### Q4 ######################################
